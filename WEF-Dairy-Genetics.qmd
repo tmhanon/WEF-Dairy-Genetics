@@ -1,0 +1,52 @@
+---
+title: "Milking Genetic Potential: Structural Change in the U.S. Dairy Industry"
+
+subtitle: "Running Title: Milking Genetic Potential"
+
+author: "Alexander S. Hopkins, Tristan M. Hanon"
+
+format: 
+  docx:
+    reference-doc: wef-manuscript-template.docx
+---
+
+
+Alexander S. Hopkins is an agricultural economist in the U.S. Department of Agriculture, Agricultural Marketing Service.
+
+
+Tristan M. Hanon (corresponding author, [tristan.hanon@usda.gov](mailto:tristan.hanon@usda.gov)) is an agricultural economist in the U.S. Department of Agriculture, Agricultural Marketing Service.
+
+
+The findings and conclusions expressed here are those of the authors and should not be construed to represent any official U.S. Department of Agriculture or U.S. government determination or policy. We thank…
+
+
+{{< pagebreak >}}
+
+
+# Milking Genetic Potential: Structural Change in the U.S. Dairy Industry
+
+(Abstract of up to 100 words)
+
+Keywords: (up to eight not already used in the title to indicate content and/or methods)
+
+
+
+{{< pagebreak >}}
+
+
+# Introduction
+
+Since the start of the 21st century, a number of innovations have significantly altered the decisions facing dairy producers. Key among these is the adoption of genomic testing, which allows producers much greater control over the traits of their milk cows. In combination with sexed semen, modern breeding practices ensure producers a more consistent understanding of the milk cows that will enter their herd.
+
+Despite these advantages, the growth rate of milk production per cow remained relatively constant before and after the introduction of genomically-tested bulls in 2010 (Hutchins and Leal, 2025). Between 2000 and 2025, annual milk production per cow increased by 35 percent, with an average year-over-year increase of 1.2 percent (USDA-NASS). The growth rate in milk yield has even slowed in recent years, averaging only 0.5 percent year-over-year between 2021 and 2025. 
+
+Why have additional gains in milk yield failed to manifest after producers were given the tools to exert greater control over these factors? We argue that they have, but in greater levels of milk components rather than milk volumes. The greater understanding brought on by genomic selection allowed producers to focus on improving milk component output, with butterfat production per cow increasing by 57 percent between 2000 and 2025. The Council on Dairy Cattle Breeding (CDCB) attributes 79 percent of the increase in butterfat and protein yield between 2000 and 2020 to genetic improvement (CDCB, 2025). Furthermore, even as milk per cow increases have slowed in recent years, year-over-year growth in butterfat per cow has accelerated, averaging 1.46 percent annually from 2000 to 2010, 1.95 percent from 2011 to 2020, and 2.34 percent from 2021 to 2025 (USDA-NASS). 
+
+We analyze the year-over-year change in daily milk production per cow, butterfat per cow, and protein per cow to detect the presence of structural break points. Specifically, we identify break points in a linear regression framework following the approach of Zeileis et al. (2003). This approach does not require identifying the dates of suspected break points ex ante, allowing us to identify changes in regression coefficients and subsequently determine if they align with known policy changes or other market disruptions. We also analyze state-level trends in milk and milk component yields to determine differences across regions and farm sizes.  
+
+Increased milk component levels allow the same quantity of milk to produce a greater quantity of manufactured dairy products. Additionally, increasing consumer demand for protein due to GLP-1 use has measurably increased demand for high-protein dairy products. However, higher milk component levels can also lead to market disruptions. In 2025, dairy markets experienced a butterfat surplus as butterfat per cow saw its largest year-over-year increase, leading to dramatic declines in wholesale butter prices and negative impacts on farm milk prices. 
+
+Genomic testing and sexed semen are also largely responsible for increasing beef-on-dairy crossbreeding opportunities. These technologies combine to reduce the number of milk cows required to be bred for replacement animals, allowing producers to breed beef crosses on the remainder. The growing importance of beef-on-dairy crossbreeding as an additional revenue source for dairy operations is changing incentive structures, with older milk cows being retained to allow for further crossbreeding opportunities. This is one factor contributing to the current size of the national dairy herd, the largest since the mid-1990s, and the resulting increase in milk output. 
+
+While most of these technologies and practices have been available for many years, the extent of their utilization has been building slowly, and we are now observing a paradigm shift and its impact on the dairy sector. Adoption of genomic testing, sexed semen, and beef-on-dairy crossbreeding has reached a tipping point, resulting in both challenges and opportunities for the dairy industry. 
+
