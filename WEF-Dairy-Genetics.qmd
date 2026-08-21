@@ -8,14 +8,37 @@ author: "Alexander S. Hopkins, Tristan M. Hanon"
 format: 
   docx:
     reference-doc: wef-manuscript-template.docx
+    
+fig-width: 7
+fig-asp: 0.6
+out-width: "70%"
+    
+bibliography: References/grateful-refs.bib
+csl: References/journal-of-agricultural-and-resource-economics.csl
 ---
 
 
+```{r}
+#| label: Setup
+#| include: false
+
+# Load Packages
+library(mktnewsie)
+library(rnassqs)
+library(tidyverse)
+
+# Set default ggplot2 theme:
+theme_set(theme_bw())
+```
+
+
+::: {custom-style="Affiliations"}
 Alexander S. Hopkins is an agricultural economist in the U.S. Department of Agriculture, Agricultural Marketing Service.
+:::
 
-
+::: {custom-style="Affiliations"}
 Tristan M. Hanon (corresponding author, [tristan.hanon@usda.gov](mailto:tristan.hanon@usda.gov)) is an agricultural economist in the U.S. Department of Agriculture, Agricultural Marketing Service.
-
+:::
 
 The findings and conclusions expressed here are those of the authors and should not be construed to represent any official U.S. Department of Agriculture or U.S. government determination or policy. We thank…
 
@@ -50,3 +73,100 @@ Genomic testing and sexed semen are also largely responsible for increasing beef
 
 While most of these technologies and practices have been available for many years, the extent of their utilization has been building slowly, and we are now observing a paradigm shift and its impact on the dairy sector. Adoption of genomic testing, sexed semen, and beef-on-dairy crossbreeding has reached a tipping point, resulting in both challenges and opportunities for the dairy industry. 
 
+
+
+```{r}
+#| label: Pull NASS Data
+#| include: false
+
+# Milk Per Cow Data
+nass_mpc_raw <- nassqs(
+  short_desc = "MILK - PRODUCTION, MEASURED IN LB / HEAD",
+  freq_desc = "ANNUAL",
+  agg_level_desc = c("NATIONAL", "STATE"),
+  year__GE = 2000,
+  progress_bar = FALSE
+)
+
+# Filter Milk Per Cow to National and State-level Data Frames
+mpc_natl_raw <- nass_mpc_raw %>%
+  filter(agg_level_desc == "NATIONAL")
+
+mpc_states_raw <- nass_mpc_raw %>%
+  filter(agg_level_desc == "STATE")
+
+# Fat Test Data
+nass_fat_test_raw <- nassqs(
+  short_desc = "MILK - FAT TEST, MEASURED IN PCT",
+  freq_desc = "ANNUAL",
+  agg_level_desc = c("NATIONAL", "STATE"),
+  year__GE = 2000,
+  progress_bar = FALSE
+)
+
+# Filter Fat Test to National and State-level Data Frames
+fat_test_natl_raw <- nass_fat_test_raw %>%
+  filter(agg_level_desc == "NATIONAL")
+
+fat_test_states_raw <- nass_fat_test_raw %>%
+  filter(agg_level_desc == "STATE")
+
+```
+
+```{r}
+#| label: Process Milk Per Cow and Fat Test Data
+#| include: false
+mpc_fat_processed <- left_join(
+  select(mpc_natl_raw, year, MPC = Value),
+  select(fat_test_natl_raw, year, Fat_Test = Value), 
+  by = "year"
+) %>%
+  mutate(
+    Year = factor(year, levels = 2000:2025),
+    MPC_Index = (MPC / MPC[Year == 2010]) * 100,
+    Fat_Index = (Fat_Test / Fat_Test[Year == 2010]) * 100,
+    Fat_Per_Cow = (Fat_Test / 100) * MPC,
+    FPC_Index = (Fat_Per_Cow / Fat_Per_Cow[Year == 2010]) * 100,
+  ) %>%
+  arrange(Year)
+```
+
+
+```{r}
+#| label: fig-mpc-fat-index
+#| fig-cap: "Milk Production and Butterfat Per Cow, 2000-2010"
+#| fig-cap-location: top
+#| echo: false
+
+mpc_fat_processed %>%
+  select(Year, MPC_Index, FPC_Index) %>%
+  pivot_longer(
+    -Year, 
+    names_to = "Measure", 
+    values_to = "Index", 
+    names_pattern = "(.*)_Index"
+  ) %>%
+  ggplot(aes(x = Year, y = Index, color = Measure, group = Measure)) +
+  geom_line() +
+  scale_x_discrete(breaks = seq(2000, 2025, by = 5)) +
+  labs(x = NULL, y = "Index (2010 = 100)")
+```
+
+
+
+
+
+```{r}
+#| label: Package Citations
+#| include: false
+grateful::cite_packages(output = "paragraph", out.dir = "References")
+```
+
+
+
+{{< pagebreak >}}
+
+# References
+
+::: {#refs}
+:::
