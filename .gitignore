@@ -4,6 +4,7 @@
 .Ruserdata
 .positai
 Data/
+Output/
 
 /.quarto/
 **/*.quarto_ipynb

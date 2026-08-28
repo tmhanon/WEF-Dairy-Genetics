@@ -22,14 +22,40 @@ csl: References/journal-of-agricultural-and-resource-economics.csl
 #| label: Setup
 #| include: false
 
+# Establish Project Root
+here::i_am("WEF-Dairy-Genetics.qmd")
+
 # Load Packages
+library(here)
+library(brand.yml)
 library(mktnewsie)
 library(rnassqs)
 library(tidyverse)
 
 # Set default ggplot2 theme:
-theme_set(theme_bw())
+theme_ams <- function() {
+  
+  theme_bw(
+    base_size = 12,
+    base_family = "sans"
+  ) +
+    theme(
+      legend.position = "bottom"
+    )
+  
+}
+
+theme_set(theme_ams())
+
+# Read _brand.yml for colors:
+brand <- read_brand_yml("_brand.yml")
 ```
+
+```{r}
+#| label: Pull Data and Process
+source(here("Scripts", "Data-Import-Process.R"))
+```
+
 
 
 ::: {custom-style="Affiliations"}
@@ -74,67 +100,29 @@ Genomic testing and sexed semen are also largely responsible for increasing beef
 While most of these technologies and practices have been available for many years, the extent of their utilization has been building slowly, and we are now observing a paradigm shift and its impact on the dairy sector. Adoption of genomic testing, sexed semen, and beef-on-dairy crossbreeding has reached a tipping point, resulting in both challenges and opportunities for the dairy industry. 
 
 
+# History of Genomic Evaluation
 
-```{r}
-#| label: Pull NASS Data
-#| include: false
+Important dates from [CDCB milestone list](https://uscdcb.com/milestones/):
 
-# Milk Per Cow Data
-nass_mpc_raw <- nassqs(
-  short_desc = "MILK - PRODUCTION, MEASURED IN LB / HEAD",
-  freq_desc = "ANNUAL",
-  agg_level_desc = c("NATIONAL", "STATE"),
-  year__GE = 2000,
-  progress_bar = FALSE
-)
+- 1885: USDA begins collecting milk and fat records of individual cows. 
+- 1936: First sire evaluations - Daughter-dam comparisons used to calculate first USDA evaluations. 
+- 1953: Frozen semen commercialized - Allowed distribution of superior genetics around the U.S. and world.
+- 1971: First U.S. genetic index - USDA published Predicted Difference Dollars index to combine milk and fat.
+- 1977: Protein and solids-not-fat evaluations calculated by USDA.
+- 1994: Net Merit, Productive LIfe, and Somatic Cell Score launched - New Net Merit $ index combined fitness, conformation, and production traits, making it unique from indexes in most countries.
+- 2003: Sexed semen commercialized - First U.S. license for sexed semen granted.
+- 2007: Chip for genomic testing made available - First commercial genotyping chip released with set of 54,001 SNPs.
+- 2009: First official U.S. genomic evaluations - U.S. pioneered used of genomic data, leading to remarkable genetic progress.
 
-# Filter Milk Per Cow to National and State-level Data Frames
-mpc_natl_raw <- nass_mpc_raw %>%
-  filter(agg_level_desc == "NATIONAL")
 
-mpc_states_raw <- nass_mpc_raw %>%
-  filter(agg_level_desc == "STATE")
+# Changes in Milk Yield and Component Volumes
 
-# Fat Test Data
-nass_fat_test_raw <- nassqs(
-  short_desc = "MILK - FAT TEST, MEASURED IN PCT",
-  freq_desc = "ANNUAL",
-  agg_level_desc = c("NATIONAL", "STATE"),
-  year__GE = 2000,
-  progress_bar = FALSE
-)
-
-# Filter Fat Test to National and State-level Data Frames
-fat_test_natl_raw <- nass_fat_test_raw %>%
-  filter(agg_level_desc == "NATIONAL")
-
-fat_test_states_raw <- nass_fat_test_raw %>%
-  filter(agg_level_desc == "STATE")
-
-```
-
-```{r}
-#| label: Process Milk Per Cow and Fat Test Data
-#| include: false
-mpc_fat_processed <- left_join(
-  select(mpc_natl_raw, year, MPC = Value),
-  select(fat_test_natl_raw, year, Fat_Test = Value), 
-  by = "year"
-) %>%
-  mutate(
-    Year = factor(year, levels = 2000:2025),
-    MPC_Index = (MPC / MPC[Year == 2010]) * 100,
-    Fat_Index = (Fat_Test / Fat_Test[Year == 2010]) * 100,
-    Fat_Per_Cow = (Fat_Test / 100) * MPC,
-    FPC_Index = (Fat_Per_Cow / Fat_Per_Cow[Year == 2010]) * 100,
-  ) %>%
-  arrange(Year)
-```
+Milk production per cow was traditionally the metric producers strove to increase through breeding decisions. 
 
 
 ```{r}
 #| label: fig-mpc-fat-index
-#| fig-cap: "Milk Production and Butterfat Per Cow, 2000-2010"
+#| fig-cap: "Index of Milk Production and Butterfat Per Cow, 2000-2025 (2010 = 100)"
 #| fig-cap-location: top
 #| echo: false
 
@@ -147,11 +135,36 @@ mpc_fat_processed %>%
     names_pattern = "(.*)_Index"
   ) %>%
   ggplot(aes(x = Year, y = Index, color = Measure, group = Measure)) +
-  geom_line() +
+  geom_line(key_glyph = "timeseries") +
   scale_x_discrete(breaks = seq(2000, 2025, by = 5)) +
+  scale_color_discrete(
+    palette = c(brand$color$palette$green, brand$color$palette$blue),
+    labels = c("FPC" = "Butterfat per Cow", "MPC" = "Milk per Cow")
+  ) +
   labs(x = NULL, y = "Index (2010 = 100)")
 ```
 
+
+
+```{r}
+#| label: fig-fmmo-comp-index
+#| fig-cap: "Index of Milk Component Levels, 2000-2025 (2010 = 100)"
+#| fig-cap-location: top
+#| echo: false
+
+fmmo_components_processed %>%
+  ggplot(aes(x = Year, y = Index, color = Component, group = Component)) +
+  geom_line() +
+  scale_x_discrete(breaks = seq(2000, 2025, by = 5)) +
+  scale_color_discrete(
+    palette = c(
+      brand$color$palette$green,
+      brand$color$palette$blue, 
+      brand$color$palette$red
+    )
+  ) +
+  labs(x = NULL, y = "Index (2010 = 100)")
+```
 
 
 

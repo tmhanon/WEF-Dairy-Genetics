@@ -1,0 +1,68 @@
+meta: 
+  name:
+    short: USDA-AMS
+    full: USDA Agricultural Marketing Service
+  link: 
+    home: https://www.ams.usda.gov/
+    github: https://github.com/USDA-MRP-AMS
+    
+logo: 
+  images: 
+    ams-color: Logos/ams-color-lockup.svg
+    ams-white: Logos/ams-white-lockup.svg
+    ams-black: Logos/ams-black-lockup.svg
+  medium: ams-color
+    
+color: 
+  palette:
+    usdagreen: "#005440"
+    usdablue: "#002D72"
+    green: "#2B5C0D"
+    blue: "#0071BC"
+    gold: "#ECC934"
+    darkgreen: "#1B3A08"
+    darkblue: "#004574"
+    darkgold: "#AE8F33"
+    lightgreen: "#CAD6C3"
+    lightgold: "#EBE3CC"
+    lightgray: "#e6e6e2"
+    gray: "#76766a"
+    darkgray: "#454540"
+    red: "#a23737"
+  foreground: "#2e2e2a"
+  background: "#f6f6f2"
+  primary: green
+  secondary: darkblue
+  tertiary: gold
+  danger: red
+
+typography: 
+  fonts: 
+    - family: Merriweather
+      source: google
+    - family: Source Sans Pro
+      source: google
+    - family: IBM Plex Mono
+      source: google
+  base: 
+    family: Source Sans Pro
+    line-height: 1.6
+  headings: 
+    family: Merriweather Light 18pt
+    color: green
+    weight: 700
+  monospace: IBM Plex Mono
+  link:
+    color: blue
+    decoration: underline
+      
+defaults: 
+  bootstrap: 
+    rules: |
+      .h3, .h4, .h5, .h6,
+      h3, h4, h5, h6 {
+        font-family: Source Sans Pro, sans-serif
+      }
+      
+    
+    
