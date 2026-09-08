@@ -50,7 +50,7 @@ source(here("Scripts", "Figures.R"))
 
 
 
-Advances in genomic testing and selection have allowed dairy producers to increase their butterfat production while simultaneously slowing the growth in milk production per cow, thus increasing the value of the milk they produce in a cost-effective manner. We test time series of yearly growth rates in milk production, fat production, and protein production per milk cow in the United States for the presence of structural breaks and discuss dynamics behind dairy producers’ breeding decisions and their impacts on milk and milk component yields. We find significant breaks in the growth rates of milk and butterfat per cow. 
+Advances in genomic testing and selection have allowed dairy producers to increase their butterfat production while simultaneously slowing the growth in milk production per cow, increasing the value of the milk they produce in a cost-effective manner. We test time series of yearly growth rates in milk production, fat production, and protein production per milk cow in the United States for the presence of structural breaks and discuss dynamics behind dairy producers’ breeding decisions and their impacts on milk and milk component yields. We find significant breaks in the growth rates of milk and butterfat per cow. 
 
 Keywords: genomic testing, structural break analysis, dairy supply
 
@@ -61,13 +61,13 @@ Keywords: genomic testing, structural break analysis, dairy supply
 
 # Introduction
 
-Since the start of the 21st century, a number of innovations have significantly altered the decisions facing dairy producers. Key among these is the adoption of genomic testing, which provides producers much greater understanding of the traits of their milk cows. In combination with sexed semen, modern breeding practices allow producers more control over the milk cows that will enter their herd.
+Since the start of the 21st century, a number of innovations significantly altered the decisions facing dairy producers. Key among these is the adoption of genomic testing, which provides producers much greater understanding of the traits of their milk cows. In combination with sexed semen, modern breeding practices allow producers more control over the milk cows entering their herd.
 
 Despite these advantages, the growth rate of milk production per cow remained relatively constant before and after the introduction of genomically-tested bulls in 2010 [@Hutchins2025]. Between 1980 and 2025, annual milk production per cow more than doubled, with an average annual growth rate of `{r} inline_text(growth_rate_table, variable = MPC_Growth_Rate, column = "stat_0")` percent [@MilkProd]. Prior to 2010, the average annual growth in milk yield was `{r} round(growth_rate_1981_2010, 2)` percent, but this growth has actually slowed in recent years, averaging only `{r} round(growth_rate_2011_2025, 2)` percent year-over-year between 2011 and 2025.
 
-Why have additional gains in milk yield failed to manifest after producers were given the tools to exert greater control over these factors? We argue that they have, but in greater levels of milk components rather than milk volumes. The greater understanding brought on by genomic testing and selection allowed producers to focus on improving milk component output, and the Council on Dairy Cattle Breeding (CDCB) attributes 79 percent of the increase in butterfat and protein yield between 2000 and 2020 to genetic improvement [@CDCBImpact]. Furthermore, even as milk per cow increases have slowed in recent years, year-over-year growth in butterfat per cow has accelerated, averaging `{r} inline_text(growth_rate_table, variable = FPC_Growth_Rate, column = "2001-2010")` percent annually from 2001 to 2010, `{r} inline_text(growth_rate_table, variable = FPC_Growth_Rate, column = "2011-2020")` percent from 2011 to 2020, and `{r} inline_text(growth_rate_table, variable = FPC_Growth_Rate, column = "2021-2025")` percent from 2021 to 2025 [@MilkProd; @AgPrices]. 
+Why have additional gains in milk yield failed to manifest after producers were given the tools to exert greater control over these factors? We argue they have, but in greater levels of milk components rather than milk volumes. The greater understanding brought on by genomic testing and selection allowed producers to focus on improving milk component output, and the Council on Dairy Cattle Breeding (CDCB) attributes 79 percent of the increase in butterfat and protein yield between 2000 and 2020 to genetic improvement [@CDCBImpact]. Furthermore, even as milk per cow increases slowed in recent years, year-over-year growth in butterfat per cow accelerated, averaging `{r} inline_text(growth_rate_table, variable = FPC_Growth_Rate, column = "2001-2010")` percent annually from 2001 to 2010, `{r} inline_text(growth_rate_table, variable = FPC_Growth_Rate, column = "2011-2020")` percent from 2011 to 2020, and `{r} inline_text(growth_rate_table, variable = FPC_Growth_Rate, column = "2021-2025")` percent from 2021 to 2025 [@MilkProd; @AgPrices]. 
 
-We analyze the year-over-year growth rates of daily milk production per cow, butterfat per cow, and protein per cow to detect the presence of structural break points using a linear regression framework following the approach of @Zeileis2003. This approach does not require identifying the dates of suspected break points ex ante, allowing us to identify changes in regression coefficients and subsequently determine if they align with known policy changes or other market disruptions.
+We analyze the year-over-year growth rates of daily milk production per cow, butterfat per cow, and protein per cow to detect the presence of structural break points using a linear regression framework following the approach of @strucchange2003. This approach does not require identifying the dates of suspected break points ex ante, allowing us to identify changes in regression coefficients and subsequently determine if they align with known policy changes or other market disruptions.
 
 Increased milk component levels allow the same quantity of milk to produce a greater quantity of manufactured dairy products. When overall milk production increases due to the expansion of the U.S. dairy herd, as occurred throughout 2025 and the first half of 2026, these effects compound to substantially increase the supply of milk components. This supply expansion presents both a challenge and opportunity to the U.S. dairy industry, and dairy markets will be forced to adapt to these new dynamics. 
 
@@ -77,7 +77,7 @@ Increased milk component levels allow the same quantity of milk to produce a gre
 
 # Changes in Milk Yield and Component Volumes
 
-Milk production per cow and butterfat levels have been tracked for the purposes of herd improvement since the early 1900s. In 1908, the USDA organized the Dairy Herd Improvement Association to facilitate milk testing and tracking of performance data [@Weigel2017]. As a result, dairy producers have traditionally focused their efforts on improving both overall milk volumes and butterfat volumes, and for many years the year-over-year increases in milk per cow and fat per cow tracked in lockstep (@tbl-growth-rates).
+Milk production per cow and butterfat levels have been tracked for the purposes of herd improvement since the early 1900s. In 1908, the USDA organized the Dairy Herd Improvement Association to facilitate milk testing and tracking of performance data [@Weigel2017]. As a result, dairy producers traditionally focused their efforts on improving both overall milk volumes and butterfat volumes, and for many years the year-over-year increases in milk per cow and fat per cow tracked in lockstep (@tbl-growth-rates).
 
 ```{r}
 #| label: tbl-growth-rates
@@ -91,7 +91,7 @@ growth_rate_table %>%
 ```
 
 
-Since genomic testing became widely available in 2010, the growth of milk per cow and fat per cow have diverged (@fig-mpc-fat-index). While milk per cow has continued to improve, increasing `{r} format(pluck(annual_mpc_fat_processed, "MPC_Index", nrow(annual_mpc_fat_processed)) - 100, digits = 3)` percent since 2010, the average annual growth rate has declined to `{r} round(growth_rate_2011_2025, 2)` percent. In contrast, growth in fat per cow has accelerated, increasing `{r} format(pluck(annual_mpc_fat_processed, "FPC_Index", nrow(annual_mpc_fat_processed)) - 100, digits = 3)` percent at an average rate of `{r} round(fat_growth_2011_2025, 2)` percent [@MilkProd; @AgPrices].
+Since genomic testing became widely available in 2010, the growth of milk per cow and fat per cow diverged (@fig-mpc-fat-index). While milk per cow continued to improve, increasing `{r} format(pluck(annual_mpc_fat_processed, "MPC_Index", nrow(annual_mpc_fat_processed)) - 100, digits = 3)` percent since 2010, the average annual growth rate declined to `{r} round(growth_rate_2011_2025, 2)` percent. In contrast, growth in fat per cow accelerated, increasing `{r} format(pluck(annual_mpc_fat_processed, "FPC_Index", nrow(annual_mpc_fat_processed)) - 100, digits = 3)` percent at an average rate of `{r} round(fat_growth_2011_2025, 2)` percent [@MilkProd; @AgPrices].
 
 
 ```{r}
@@ -105,11 +105,11 @@ fig_mpc_fat_index
 
 Dairy producers were likely motivated to pursue this diversion through genomic testing and selection due to the way they are compensated for the milk they produce. In general, the milk price a producer receives is adjusted for the butterfat content of their milk. In other words, a producer with higher-butterfat milk would receive a commensurately higher price for the same volume of milk as another producer selling milk with a lower butterfat content. Therefore, producers have an incentive to focus their breeding programs on producing cows with a higher natural butterfat content. 
 
-For many years the best way to increase butterfat output was to increase overall milk output, as seen in @fig-mpc-fat-index, but the introduction of genomic selection allowed producers to more directly target improvements to butterfat levels. In fact, the recent slowdown in milk per cow growth suggests producers are attempting to hold milk volumes steady while still increasing butterfat output. Since many costs faced by dairy producers scale with overall milk volumes, such as transportation costs, a producer who can focus their breeding program toward increasing butterfat levels while holding milk volumes constant can increase their marginal revenue while keeping some portion of their costs unchanged.
+For many years the best way to increase butterfat output was to increase overall milk output, as seen in @fig-mpc-fat-index. However, the introduction of genomic selection allowed producers to more directly target improvements to butterfat levels. In fact, the recent slowdown in milk per cow growth suggests producers are attempting to hold milk volumes steady while still increasing butterfat output. Since many costs faced by dairy producers scale with overall milk volumes, such as transportation costs, a producer who can focus their breeding program toward increasing butterfat levels while holding milk volumes constant can increase their marginal revenue while keeping some portion of their costs unchanged.
 
-Under the Federal Milk Marketing Order (FMMO) system, four orders require handlers to pay producers based on butterfat and skim milk volumes while the remaining seven use a multiple component pricing structure, establishing prices for butterfat, protein, and other solids. While this pricing structure was most recently unified following the Federal Order Reform process in 2000, some orders had adopted multiple component pricing prior to that process.
+Under the Federal Milk Marketing Order (FMMO) system, four orders require handlers to pay producers based on butterfat and skim milk volumes while the remaining seven use a multiple component pricing structure, establishing prices for butterfat, protein, and other solids. While this pricing structure was most recently unified following the Federal Order Reform process in 2000, some orders adopted multiple component pricing prior to that process.
 
-Multiple component pricing provides further incentive for dairy producers to optimize component levels through genomic selection. @fig-fmmo-comp-index depicts indices of average milk component tests, the percent of each component in milk, across the Federal Orders that utilize a multiple component pricing structure. Prior to 2010, the levels of butterfat, protein, and other solids in milk were essential flat, but after genomic testing became more widely available the levels of butterfat and protein began to increase substantially. In contrast, the level of other solids, which primarily consist of lactose, stayed relatively constant, reflecting their lower value relative to butterfat and protein. 
+Multiple component pricing provides further incentive for dairy producers to optimize component levels through genomic selection. @fig-fmmo-comp-index depicts indices of average milk component tests, the percent of each component in milk, across the Federal Orders utilizing a multiple component pricing structure. Prior to 2010, the levels of butterfat, protein, and other solids in milk were essentially flat, but after genomic testing became more widely available the levels of butterfat and protein began to increase substantially. In contrast, the level of other solids, which primarily consist of lactose, stayed relatively constant, reflecting their lower value relative to butterfat and protein. 
 
 
 ```{r}
@@ -125,7 +125,7 @@ fig_fmmo_comp_index
 
 # Analysis of Structural Breaks in Milk and Component Yields
 
-Testing for structural breaks can be performed via tests based on F statistics or via generalized fluctuation tests. The theory underpinning these methods will not be discussed here; we refer the reader to the work of Zeileis et al. [-@Zeileis2002; -@Zeileis2003] for details.
+Testing for structural breaks can be performed via tests based on F statistics or via generalized fluctuation tests. The theory underpinning these methods will not be discussed here; we refer the reader to the work of Zeileis et al. [-@strucchange2002; -@strucchange2003] for details.
 
 To construct the time series used in our analysis, we began with monthly milk production data on a per head basis as collected by USDA National Agricultural Statistics Service (NASS) [@MilkProd]. These data span from January 2000 to June 2026 and represent the average pounds of milk produced per milk cow in the United States each month.[^1] To allow for consistent comparisons across months, we transform the data to a daily value by dividing total monthly pounds by the number of days in the given month (accounting for leap years). We multiply daily milk produced per cow by the average butterfat test and the average protein test to obtain average fat and protein production per cow per day, respectively.[^2] Finally, we construct time series of year-over-year growth rates in milk production per cow, fat production per cow, and protein production per cow, which run from January 2001 to June 2026.
 
@@ -133,7 +133,9 @@ To construct the time series used in our analysis, we began with monthly milk pr
 
 [^2]: The fat test data are national-level averages reported by USDA NASS. The protein test data are averages across all Federal Milk Marketing Orders (FMMOs) as reported by USDA Agricultural Marketing Service (AMS). Although the AMS data do not reflect the protein levels of all milk marketed in the United States, we believe the data are representative. Additionally, the AMS data are the only available source of protein levels in milk.
 
-We apply each of Zeileis et al.’s [-@Zeileis2002; -@Zeileis2003] test procedures to the time series of year-over-year differences in milk production, fat production, and protein production per cow. In particular, we test for structural changes in the mean of these series across their time horizon.
+We apply each of Zeileis et al.’s [-@strucchange2002; -@strucchange2003] test procedures to the time series of year-over-year differences in milk production, fat production, and protein production per cow. In particular, we test for structural changes in the mean of these series across their time horizon.[^3]
+
+[^3]: `{r} grateful::cite_packages(output = "paragraph", out.dir = "References", omit = NULL, text.start = "To conduct the analysis and produce this article, we used")`
 
 The recursive estimates statistic, a specific test statistic in the context of empirical fluctuation tests, is significant for both the year-over-year changes in milk production per cow and fat production per cow, but not for the year-over-year changes in protein production per cow. The same conclusion is reached when using the supremum F statistics. Taken together, these findings support the existence of at least one structural change in the time series of differences in milk production per cow and fat production per cow but fail to provide evidence of a structural change in the time series of differences in protein production per cow.
 
@@ -169,9 +171,9 @@ Year-Over-Year Changes in Daily Butterfat Per Cow, January 2001 to June 2026
 
 The first breaks in the milk production per cow and butterfat per cow time series are likely correlated. As discussed previously, the growth rates of milk per cow and butterfat per cow were more or less identical prior to 2010, and increases in milk production per cow simply meant more butterfat production. This is supported by the breaks being identified at the same time period and the shifts moving in the same direction, i.e., milk production and butterfat production per cow both increased in mean after January/February 2005. 
 
-We argue, however, that the second break in the butterfat time series should not be associated with changes in milk production (or its associated breaks), but rather with selective genetic practices as dairy producers sought to increase butterfat production without increasing outright milk volume. This is supported by the fact that later breaks in the series occurred in different time periods and the milk per cow and butterfat per cow growth rates subsequently moved in opposite directions. Economically, this allows dairy producers to maximize revenue from component pricing while lowering transportation costs associated with larger milk volumes.
+We argue, however, the second break in the butterfat time series should not be associated with changes in milk production (or its associated breaks), but rather with selective genetic practices as dairy producers sought to increase butterfat production without increasing outright milk volume. This is supported by the fact that later breaks in the series occurred in different time periods and the milk per cow and butterfat per cow growth rates subsequently moved in opposite directions. Economically, this allows dairy producers to maximize revenue from component pricing while lowering transportation costs associated with larger milk volumes.
 
-We find it noteworthy that no breaks were detected in the year-over-year changes in protein production (@fig-ppc-breaks). This suggests protein dynamics were stable while butterfat dynamics changed. However, recent demand-side changes (e.g., GLP-1 usage and associated increases in demand for whey protein concentrates and isolates) may incentivize dairy producers to capitalize on any genetic advancements related to protein development; as such, this will remain an important area for future research. Future research on structural relationships in milk and milk component prices could also be enlightening.
+We believe the failure to detect any breaks in the year-over-year changes in protein production is noteworthy (@fig-ppc-breaks). This suggests protein dynamics were stable while butterfat dynamics changed. However, recent demand-side changes (e.g., GLP-1 usage and associated increases in demand for whey protein concentrates and isolates) may incentivize dairy producers to capitalize on any genetic advancements related to protein development; as such, this will remain an important area for future research. Future research on structural relationships in milk and milk component prices could also be enlightening.
 
 ::: {#fig-ppc-breaks}
 
@@ -190,26 +192,30 @@ Year-Over-Year Changes in Daily Protein Per Cow, January 2001 to June 2026
 
 # Discussion and Conclusion
 
-The introduction of genomic testing of dairy cattle in 2009 and its widespread adoption in 2010 impacted the way dairy producers approach breeding decisions by increasing their control over the traits of their milk cows. Although most of these technologies and practices have been available for many years, the extent of their utilization has been building slowly, and we are now observing a paradigm shift and its impact on the dairy sector. For example, sexed semen has been available since 2003, but 2023 marked the first year where sales of sexed semen exceeded sales of conventional dairy semen. Notably, beef-on-dairy semen sales also exceeded conventional dairy semen sales in 2023. Adoption of genomic testing, sexed semen, and beef-on-dairy crossbreeding has reached a tipping point, resulting in both challenges and opportunities for the dairy industry. 
+The introduction of genomic testing of dairy cattle in 2009 and its widespread adoption in 2010 impacted the way dairy producers approach breeding decisions by increasing their control over the traits of their milk cows. Although most of these technologies and practices have been available for many years, the extent of their utilization has been building slowly, and we are now observing a paradigm shift and its impact on the dairy sector. For example, sexed semen has been available since 2003, but 2023 marked the first year where sales of sexed semen exceeded sales of conventional dairy semen [@GeigerReplacements2026]. Notably, beef-on-dairy semen sales also exceeded conventional dairy semen sales in 2023. Adoption of genomic testing, sexed semen, and beef-on-dairy crossbreeding has reached a tipping point, resulting in both challenges and opportunities for the dairy industry. 
+
+Furthermore, dairy operations are increasing in size in terms of the average number of milk cows per farm, especially in the Western United States. According to the U.S. Department of Agriculture, Economic Research Service, 96 percent of operations with more than 500 milk cows utilize advanced breeding technologies (defined as artificial insemination, embryo transplants, or sexed semen) and 94 percent maintain individual cow production records, both of which are significantly higher utilization shares compared to smaller operations [@gillespie_structure_2024]. 
 
 Genomic testing and sexed semen are also largely responsible for increasing beef-on-dairy crossbreeding opportunities. These technologies combine to reduce the number of milk cows required to be bred for replacement animals, allowing producers to breed beef crosses on the remainder. The growing importance of beef-on-dairy crossbreeding as an additional revenue source for dairy operations is changing incentive structures, with older milk cows being retained to allow for further crossbreeding opportunities. This is one factor contributing to the current size of the national dairy herd, the largest since the mid-1990s, and the resulting increase in milk output. 
 
-While the growth in milk component levels brought on through advancements in genomic testing and selection allows dairy producers to increase the value of the milk they produce, the corresponding outward shift in supply can also lead to market disruptions. In 2025, dairy markets experienced a butterfat surplus as butterfat per cow saw its largest year-over-year increase, leading to dramatic declines in wholesale butter prices and negative impacts on farm milk prices. Butter prices have remained suppressed through the first half of 2026. However, changing consumer demand patterns may present additional opportunities. Increasing consumer demand for protein due to GLP-1 use has measurably increased demand for high-protein dairy products.  
+While the growth in milk component levels brought on through advancements in genomic testing and selection allows dairy producers to increase the value of the milk they produce, the corresponding outward shift in supply can also lead to market disruptions [@GeigerButterfat2026]. In 2025, dairy markets experienced a butterfat surplus as butterfat per cow saw its largest year-over-year increase, leading to dramatic declines in wholesale butter prices and negative impacts on farm milk prices. Butter prices remained suppressed through the first half of 2026. However, changing consumer demand patterns may present additional opportunities. Increasing consumer demand for protein due to GLP-1 use measurably increased demand for high-protein dairy products.  
 
-If milk component levels continue to increase at the rate observed in recent years, dairy markets will need to adjust to absorb the expanded supply of butterfat and protein. 
-
-
-
-
-```{r}
-#| label: Package Citations
-#| include: false
-grateful::cite_packages(output = "paragraph", out.dir = "References")
-```
+If milk component levels continue to increase at the rate observed in recent years, dairy markets will need to adjust to absorb the expanded supply of butterfat and protein. Shifting consumption patterns and increasing export opportunities provide some opportunity to do so, but as dairy product prices and the prices paid for milk components adjust the incentives facing dairy producers will also shift. The advancement of genomic testing and selection, as well as other advance breeding techniques, ensure dairy producers have the tools to adapt to these changing dynamics. 
 
 
 
 {{< pagebreak >}}
+
+```{r}
+#| label: Package Citations
+#| include: false
+grateful::cite_packages(
+  output = "paragraph", 
+  out.dir = "References", 
+  omit = NULL,
+  text.start = "To conduct the analysis and produce this article, we used"
+)
+```
 
 # References
 
