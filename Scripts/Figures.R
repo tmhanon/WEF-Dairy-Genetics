@@ -18,7 +18,7 @@ library(tidyverse)
 theme_ams <- function() {
   
   theme_bw(
-    base_size = 11,
+    base_size = 12,
     base_family = "sans"
   ) +
     theme(
@@ -44,10 +44,14 @@ fig_mpc_fat_index <- annual_mpc_fat_processed %>%
     names_pattern = "(.*)_Index"
   ) %>%
   ggplot(aes(x = Year, y = Index, color = Measure, group = Measure)) +
-  geom_line(key_glyph = "timeseries") +
+  geom_line(aes(linetype = Measure), key_glyph = "timeseries") +
   scale_x_discrete(breaks = seq(1980, 2025, by = 5)) +
   scale_color_discrete(
     palette = c(brand$color$palette$green, brand$color$palette$blue),
+    labels = c("FPC" = "Butterfat per Cow", "MPC" = "Milk per Cow")
+  ) +
+  scale_linetype_manual(
+    values = c("solid", "longdash"),
     labels = c("FPC" = "Butterfat per Cow", "MPC" = "Milk per Cow")
   ) +
   labs(x = NULL, y = "Index (2010 = 100)")
@@ -58,7 +62,7 @@ fig_mpc_fat_index <- annual_mpc_fat_processed %>%
 fig_fmmo_comp_index <- fmmo_components_processed %>%
   mutate(Year = factor(Year, levels = 2000:2025)) %>%
   ggplot(aes(x = Year, y = Index, color = Component, group = Component)) +
-  geom_line(key_glyph = "timeseries") +
+  geom_line(aes(linetype = Component), key_glyph = "timeseries") +
   scale_x_discrete(breaks = seq(2000, 2025, by = 5)) +
   scale_color_discrete(
     palette = c(
@@ -66,6 +70,9 @@ fig_fmmo_comp_index <- fmmo_components_processed %>%
       brand$color$palette$blue, 
       brand$color$palette$red
     )
+  ) +
+  scale_linetype_manual(
+    values = c("solid", "dashed", "longdash")
   ) +
   labs(x = NULL, y = "Index (2010 = 100)")
 
