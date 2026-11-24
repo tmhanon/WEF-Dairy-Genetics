@@ -1,6 +1,10 @@
 ---
 title: "Milking Genetic Potential: Structural Change in the U.S. Dairy Industry"
 
+subtitle: "Running Title: Milking Genetic Potential"
+
+author: "Alexander S. Hopkins, Tristan M. Hanon"
+
 format: 
   docx:
     reference-doc: wef-manuscript-template.docx
@@ -49,6 +53,22 @@ source(here("Scripts", "Figures.R"))
 ```
 
 
+::: {custom-style="Affiliations"}
+Alexander S. Hopkins is an agricultural economist in the U.S. Department of Agriculture, Agricultural Marketing Service.
+:::
+
+::: {custom-style="Affiliations"}
+Tristan M. Hanon (corresponding author, [tristan.hanon@usda.gov](mailto:tristan.hanon@usda.gov)) is an agricultural economist in the U.S. Department of Agriculture, Agricultural Marketing Service.
+:::
+
+The findings and conclusions expressed here are those of the authors and should not be construed to represent any official U.S. Department of Agriculture or U.S. government determination or policy. We thank Carolyn Liebrand for discussions that prompted the ideas behind this article and Lorie Cashman, Becca Weir, and two anonymous reviewers for providing valuable feedback.
+
+
+{{< pagebreak >}}
+
+::: {custom-style="Title"}
+{{< meta title >}}
+:::
 
 Advances in genomic testing and selection have allowed dairy producers to increase their butterfat production while simultaneously slowing the growth in milk production per cow, increasing the value of the milk they produce in a cost-effective manner. We test time series of yearly growth rates in milk production, fat production, and protein production per milk cow in the United States for the presence of structural breaks and discuss dynamics behind dairy producers’ breeding decisions and their impacts on milk and milk component yields. We find significant breaks in the growth rates of milk and butterfat per cow. 
 
